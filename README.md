@@ -1,2 +1,2 @@
-# dependensee
-📊 Relaxed functional dependecy visualization app
+# Dependensee
+📊 Relaxed functional dependecy visualization web app.
