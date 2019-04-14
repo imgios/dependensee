@@ -1,7 +1,7 @@
 <p align="center">
   <i>DEPENDENSEE</i>
   <br/><span>&#9783;</span> <span>&#10141;</span> :bar_chart:
-  <br/><sup>Relaxed functional dependencies visualization web app.</sup>
+  <br/>Relaxed functional dependencies visualization web app.
 </p>
 
 ## What is Dependensee?
