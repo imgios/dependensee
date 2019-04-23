@@ -16,7 +16,7 @@ Development-related progress can be seen in the `develop` branch.
 
 ## Usage
 ```bash
-git clone https://github.com/imgios/dependensee.git
-cd dependensee
-ionic serve
+$ git clone https://github.com/imgios/dependensee.git
+$ cd dependensee
+$ ionic serve
 ```
