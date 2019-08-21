@@ -20,3 +20,6 @@ $ git clone https://github.com/imgios/dependensee.git
 $ cd dependensee
 $ ionic serve
 ```
+
+## License
+Dependensee is [MIT licensed](./LICENSE).
