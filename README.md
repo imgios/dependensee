@@ -14,10 +14,10 @@ Development-related progress can be seen in the `develop` branch.
 - latest Node.js and npm
 - Ionic v4
 
-## Usage
+### Run
 ```bash
 $ git clone https://github.com/imgios/dependensee.git
-$ cd dependensee
+$ cd dependensee && npm install
 $ ionic serve
 ```
 
