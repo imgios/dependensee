@@ -1,3 +1,5 @@
+import { Output } from '@angular/core';
+
 /**
  * RFD STRUCTURE:
  * A@number -> Y@number
@@ -7,7 +9,7 @@
  * RHS thresholds is <= x, where x is gave as input by the user
  */
 
-export class rfd {
+export class Rfd {
     private lhs: Array<[string, number]>;
     private rhs: [string, number];
 
@@ -44,5 +46,9 @@ export class rfd {
 
     setRHS(userRHS: [string, number]) {
         this.rhs = userRHS;
+    }
+    
+    toString = () : string => {
+        return "!! RFD: " + this.lhs + this.rhs;
     }
 }
