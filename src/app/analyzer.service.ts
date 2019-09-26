@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Rfd } from './rfd';
+import { RelaxedFunctionalDependence } from './RelaxedFunctionalDependence';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +17,10 @@ export class AnalyzerService {
         reader.onload = () => {
           var lines = (reader.result as String).split('\n');
           if (lines.length > 0) { // check if the file is empty
-            let rfdSet: Array<Rfd> = new Array<Rfd>();
+            let rfdSet: Array<RelaxedFunctionalDependence> = new Array<RelaxedFunctionalDependence>();
             for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
               if (lines[lineIndex].indexOf("@") > -1) { // check if the line is a RFD
-                let rfd: Rfd = new Rfd(new Array<[string, number]>(), undefined);
+                let rfd: RelaxedFunctionalDependence = new RelaxedFunctionalDependence(new Array<[string, number]>(), undefined);
                 let lineItem = lines[lineIndex].split(",");
                 for (let item of lineItem) {
                   if (item.indexOf("->") > -1) {

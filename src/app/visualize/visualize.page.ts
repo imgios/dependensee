@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyzerService } from '../analyzer.service';
-import { Rfd } from '../rfd';
+import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
 
 @Component({
   selector: 'app-visualize',
@@ -9,7 +9,7 @@ import { Rfd } from '../rfd';
 })
 export class VisualizePage implements OnInit {
   fileLogs: String = "";
-  rfdSet: Array<Rfd>;
+  rfdSet: Array<RelaxedFunctionalDependence>;
 
   constructor(public analyzer: AnalyzerService) { }
 
