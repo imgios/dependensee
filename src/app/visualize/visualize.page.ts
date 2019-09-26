@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalyzerService } from '../analyzer.service';
+import { Rfd } from '../rfd';
 
 @Component({
   selector: 'app-visualize',
@@ -7,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizePage implements OnInit {
   fileLogs: String = "";
+  rfdSet: Array<Rfd>;
 
-  constructor() { }
+  constructor(public analyzer: AnalyzerService) { }
 
   ngOnInit() {
   }
@@ -21,6 +24,16 @@ export class VisualizePage implements OnInit {
     this.fileLogs += "[!] Is a file? " + isFile + "\n";
     this.fileLogs += "[!] File uploaded: " + fileUploaded + "\n";
     this.fileLogs += "[!] File extension: " + fileUploaded.name.split('.').pop() + "\n";
+    this.analyzer.analyzeFile(fileUploaded).then((data) => {
+      this.rfdSet = data;
+      this.fileLogs += "[!] Dataset stored into the structure!";
+      console.log("\n:: RFDS ::\n", this.rfdSet);
+    }, (reason) => {
+      this.fileLogs += "[!] " + reason + "\n";
+    }).catch((exception) => {
+      this.fileLogs += "[!] Error while calling the function 'analyzeFile'!\n";
+      console.log(exception);
+    });
   }
 
 }
