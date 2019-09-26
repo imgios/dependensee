@@ -9,7 +9,7 @@ import { Output } from '@angular/core';
  * RHS thresholds is <= x, where x is gave as input by the user
  */
 
-export class Rfd {
+export class RelaxedFunctionalDependence {
     private lhs: Array<[string, number]>;
     private rhs: [string, number];
 
