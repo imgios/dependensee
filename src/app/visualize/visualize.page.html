@@ -51,7 +51,7 @@
       <ion-row *ngFor="let lhs of attributes">
         <ion-col *ngFor="let rhs of attributes">
           <div id="{{lhs + '>' + rhs}}">
-            {{ lhs + '->' + rhs}}
+            <span *ngIf="lhs != rhs">{{ lhs + '->' + rhs}}</span>
           </div>
         </ion-col>
       </ion-row>
