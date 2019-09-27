@@ -47,7 +47,7 @@ export class VisualizePage implements OnInit {
         console.log(exception);
       });
     } else {
-      this.fileLogs += "[!] Invalid thresholds value or file!\n";
+      this.fileLogs += "[!] Invalid threshold value or file!\n";
     }
   }
 

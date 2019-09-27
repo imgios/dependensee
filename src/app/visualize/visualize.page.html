@@ -14,7 +14,7 @@
         <ion-col size="8">
           <div>
             <ion-item>
-              <ion-label>File uploader:</ion-label>
+              <ion-label position="stacked">File uploader:</ion-label>
               <ion-input type="file" accept=".txt, text/plain" (change)="setFile($event)"></ion-input>
             </ion-item>
           </div>
@@ -22,7 +22,7 @@
         <ion-col size="2">
           <div>
               <ion-item>
-                <ion-label>Threshold:</ion-label>
+                <ion-label position="floating">Threshold:</ion-label>
                 <ion-input type="number" min="0" value="0" [(ngModel)]="threshold"></ion-input>
               </ion-item>
           </div>
