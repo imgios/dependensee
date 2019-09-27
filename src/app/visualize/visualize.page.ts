@@ -10,6 +10,7 @@ import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
 export class VisualizePage implements OnInit {
   fileLogs: String = "";
   rfdSet: Array<RelaxedFunctionalDependence>;
+  attributes: Array<String>;
   fileUploaded: File;
   threshold: Number;
 
@@ -34,9 +35,11 @@ export class VisualizePage implements OnInit {
     if (this.threshold >= 0 && this.fileUploaded) {
       this.fileLogs += "[!] Threshold: " + this.threshold + "\n";
       this.analyzer.analyzeFile(this.fileUploaded).then((data) => {
-        this.rfdSet = data;
+        this.rfdSet = data[0];
+        this.attributes = data[1];
         this.fileLogs += "[!] Dataset stored into the structure!";
         console.log("\n:: RFDS ::\n", this.rfdSet);
+        console.log("\n:: ATTR ::\n", this.attributes);
       }, (reason) => {
         this.fileLogs += "[!] " + reason + "\n";
       }).catch((exception) => {
