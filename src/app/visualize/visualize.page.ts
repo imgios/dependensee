@@ -10,30 +10,42 @@ import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
 export class VisualizePage implements OnInit {
   fileLogs: String = "";
   rfdSet: Array<RelaxedFunctionalDependence>;
+  fileUploaded: File;
+  threshold: Number;
 
-  constructor(public analyzer: AnalyzerService) { }
+  constructor(public analyzer: AnalyzerService) { 
+    this.threshold = 0;
+  }
 
   ngOnInit() {
   }
 
-  analyzeFile($event) {
-    let fileUploaded = $event.target.files[0];
-    console.log(fileUploaded);
+  setFile($event) {
+    this.fileUploaded = $event.target.files[0];
+    console.log(this.fileUploaded);
     this.fileLogs += "[!] File upload event fired\n";
-    let isFile = (fileUploaded instanceof File) ? 'Yes' : 'No';
+    let isFile = (this.fileUploaded instanceof File) ? 'Yes' : 'No';
     this.fileLogs += "[!] Is a file? " + isFile + "\n";
-    this.fileLogs += "[!] File uploaded: " + fileUploaded + "\n";
-    this.fileLogs += "[!] File extension: " + fileUploaded.name.split('.').pop() + "\n";
-    this.analyzer.analyzeFile(fileUploaded).then((data) => {
-      this.rfdSet = data;
-      this.fileLogs += "[!] Dataset stored into the structure!";
-      console.log("\n:: RFDS ::\n", this.rfdSet);
-    }, (reason) => {
-      this.fileLogs += "[!] " + reason + "\n";
-    }).catch((exception) => {
-      this.fileLogs += "[!] Error while calling the function 'analyzeFile'!\n";
-      console.log(exception);
-    });
+    this.fileLogs += "[!] File uploaded: " + this.fileUploaded + "\n";
+    this.fileLogs += "[!] File extension: ." + this.fileUploaded.name.split('.').pop() + "\n";
+  }
+
+  analyzeFile() {
+    if (this.threshold >= 0 && this.fileUploaded) {
+      this.fileLogs += "[!] Threshold: " + this.threshold + "\n";
+      this.analyzer.analyzeFile(this.fileUploaded).then((data) => {
+        this.rfdSet = data;
+        this.fileLogs += "[!] Dataset stored into the structure!";
+        console.log("\n:: RFDS ::\n", this.rfdSet);
+      }, (reason) => {
+        this.fileLogs += "[!] " + reason + "\n";
+      }).catch((exception) => {
+        this.fileLogs += "[!] Error while calling the function 'analyzeFile'!\n";
+        console.log(exception);
+      });
+    } else {
+      this.fileLogs += "[!] Invalid thresholds value or file!\n";
+    }
   }
 
 }
