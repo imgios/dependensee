@@ -47,5 +47,14 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-grid>
+      <ion-row *ngFor="let lhs of attributes">
+        <ion-col *ngFor="let rhs of attributes">
+          <div id="{{lhs + '>' + rhs}}">
+            {{ lhs + '->' + rhs}}
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
