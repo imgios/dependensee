@@ -56,19 +56,19 @@ export class AnalyzerService {
     })
   }
 
-  calculateData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, threshold: number, maxCardinality: number): Promise<any>{
+  calculateData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, maxThreshold: number, maxCardinality: number): Promise<any>{
     return new Promise((resolve, reject) => {
       if (typeof rfdSet === "undefined"
         || typeof lhsAttribute === "undefined"
         || typeof rhsAttribute === "undefined"
         || lhsAttribute.length < 1
         || rhsAttribute.length < 1) {
-          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, threshold);
+          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
           reject("Invalid arguments passed!");
         } else {
-          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, threshold);
+          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
           let data: string = '{';
-          for (let i = 0; i <= threshold; i++) { // x axis
+          for (let i = 0; i <= maxThreshold; i++) { // x axis
             for (let j = 1; j <= maxCardinality; j++) { // y axis
               let tempLHS: [string, number] = [lhsAttribute, Number.NEGATIVE_INFINITY];
               for (let rfd of rfdSet) {
