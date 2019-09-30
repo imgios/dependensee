@@ -47,6 +47,28 @@ export class RelaxedFunctionalDependence {
     setRHS(userRHS: [string, number]) {
         this.rhs = userRHS;
     }
+
+    contains(hs: string, attribute: string): [string, number] {
+        switch(hs) {
+            case "lhs":
+                for (let item of this.lhs) {
+                    if (item[0].toLowerCase() === attribute.toLowerCase()) {
+                        return item;
+                    }
+                }
+                break;
+            case "rhs":
+                if (this.rhs[0].toLowerCase() === attribute.toLowerCase()) {
+                    return this.rhs;
+                }
+                break;
+            default:
+                console.log("Error: hand side undefined!");
+                return undefined;
+        }
+        console.log("RFD doesn't contains " + attribute + "!");
+        return undefined;
+    }
     
     toString = () : string => {
         return "!! RFD: " + this.lhs + this.rhs;
