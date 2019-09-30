@@ -12,10 +12,9 @@ export class VisualizePage implements OnInit {
   rfdSet: Array<RelaxedFunctionalDependence>;
   attributes: Array<String>;
   fileUploaded: File;
-  threshold: Number;
+  threshold: number;
 
   constructor(public analyzer: AnalyzerService) { 
-    this.threshold = 0;
   }
 
   ngOnInit() {
@@ -37,9 +36,17 @@ export class VisualizePage implements OnInit {
       this.analyzer.analyzeFile(this.fileUploaded).then((data) => {
         this.rfdSet = data[0];
         this.attributes = data[1];
-        this.fileLogs += "[!] Dataset stored into the structure!";
+        this.fileLogs += "[!] Dataset stored into the structure!\n";
         console.log("\n:: RFDS ::\n", this.rfdSet);
         console.log("\n:: ATTR ::\n", this.attributes);
+        this.analyzer.calculateData(this.rfdSet, "ID", "TITLE", this.threshold, this.attributes.length - 1).then((data) => {
+          this.fileLogs += "[!] Data:\n" + data;
+        }, (reason) => {
+          this.fileLogs += "[!]" + reason + "\n";
+        }).catch((exception) => {
+          this.fileLogs += "[!] Error while calling the function 'calculateData'!\n";
+          console.log(exception);
+        });
       }, (reason) => {
         this.fileLogs += "[!] " + reason + "\n";
       }).catch((exception) => {
@@ -49,6 +56,7 @@ export class VisualizePage implements OnInit {
     } else {
       this.fileLogs += "[!] Invalid threshold value or file!\n";
     }
+    this.fileLogs += "\n\n\n\n";
   }
 
 }
