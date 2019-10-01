@@ -56,7 +56,6 @@ export class VisualizePage implements OnInit {
     } else {
       this.fileLogs += "[!] Invalid threshold value or file!\n";
     }
-    this.fileLogs += "\n\n\n\n";
   }
 
   getPlots() {
@@ -104,8 +103,8 @@ export class VisualizePage implements OnInit {
     for (let i = 0; i <= this.threshold; i++) {
       myGroups[i] = ""+i;
     }
-    for (let i = 1; i < this.attributes.length - 1; i++) {
-      myVars[i] = ""+i;
+    for (let i = 0; i < this.attributes.length - 1; i++) {
+      myVars[i] = ""+(i+1);
     }
     console.log(myGroups, myVars);
     // Build X scales and axis:
@@ -154,5 +153,6 @@ export class VisualizePage implements OnInit {
             .style("font-size", "14px")
             .text(lhs + " → " + rhs);
     this.hideButton = true;
+    this.fileLogs += "[!] Plots generated!\n";
   }
 }

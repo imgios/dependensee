@@ -6,7 +6,6 @@
 
 <ion-content>
   <div class="ion-padding">
-    <p>Seems like you're brave enough to check the development status!</p>
     <p>First of all, upload a .txt file that contains a set of RFDs and insert the threshold:</p>
 
     <ion-grid>
@@ -50,7 +49,13 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row [hidden]='!hideButton'>You can check the result below. You must refresh the page if you want to analyze another set.</ion-row>
+      <ion-row [hidden]='!hideButton'>
+        <ion-col>You can check the result below. You must refresh the page if you want to analyze another set.</ion-col>
+      </ion-row>
+      <ion-row [hidden]='!hideButton'>
+        <ion-col size="2">Legend:</ion-col>
+        <ion-col size="4">ToDo: RHS Legend and LHS Legend</ion-col>
+      </ion-row>
     </ion-grid>
     <div id="rfdHeatmap"></div>
   </div>
