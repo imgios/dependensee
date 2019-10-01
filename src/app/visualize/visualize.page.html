@@ -10,7 +10,7 @@
     <p>First of all, upload a .txt file that contains a set of RFDs and insert the threshold:</p>
 
     <ion-grid>
-      <ion-row>
+      <ion-row [hidden]='hideButton'>
         <ion-col size="8">
           <div>
             <ion-item>
@@ -32,7 +32,7 @@
             <ion-button color="primary" expand="block" (click)="analyzeFile()">
               <ion-icon name="analytics"></ion-icon>
               Analyze
-            </ion-button>            
+            </ion-button>
           </div>
         </ion-col>
       </ion-row>
@@ -40,21 +40,18 @@
         <ion-col>
           <div>
             <ion-item>
+                <ion-label>Show/hide logs</ion-label>
+                <ion-toggle (ionChange)="toggleLogs()"></ion-toggle>
+            </ion-item>
+            <ion-item [hidden]="hideLogs">
               <ion-label position="stacked">Logs:</ion-label>
               <ion-textarea [(ngModel)]="fileLogs" rows="10" readonly></ion-textarea>
             </ion-item>
           </div>
         </ion-col>
       </ion-row>
+      <ion-row [hidden]='!hideButton'>You can check the result below. You must refresh the page if you want to analyze another set.</ion-row>
     </ion-grid>
-    <ion-grid>
-      <ion-row *ngFor="let lhs of attributes">
-        <ion-col *ngFor="let rhs of attributes">
-          <div id="{{lhs + '-' + rhs}}">
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <div id="myHeatmap"></div>
+    <div id="rfdHeatmap"></div>
   </div>
 </ion-content>

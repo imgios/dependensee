@@ -15,11 +15,19 @@ export class VisualizePage implements OnInit {
   attributes: Array<string>;
   fileUploaded: File;
   threshold: number;
+  hideButton: boolean;
+  hideLogs: boolean;
 
-  constructor(public analyzer: AnalyzerService) { 
+  constructor(public analyzer: AnalyzerService) {
+    this.hideButton = false;
+    this.hideLogs = true;
   }
 
   ngOnInit() {
+  }
+
+  toggleLogs(event) {
+    this.hideLogs = (this.hideLogs) ? false : true;
   }
 
   setFile($event) {
@@ -55,11 +63,19 @@ export class VisualizePage implements OnInit {
     for (let lhs of this.attributes) {
       for (let rhs of this.attributes) {
         if (lhs !== rhs) {
-         let data = this.analyzer.retrieveData(this.rfdSet, lhs, rhs, this.threshold, this.attributes.length - 1);
-         if (data.indexOf("[") > -1) {
-           console.log("[if]", data);
-           this.drawPlot(lhs, rhs, JSON.parse(data));
-         }
+         //let data = this.analyzer.retrieveData(this.rfdSet, lhs, rhs, this.threshold, this.attributes.length - 1);
+         this.analyzer.calculateData(this.rfdSet, lhs, rhs, this.threshold, this.attributes.length - 1).then((data) => {
+          this.drawPlot(lhs, rhs, JSON.parse(data))
+        }, (reason) => {
+          this.fileLogs += "[!] " + reason + "\n";
+        }).catch((exception) => {
+          this.fileLogs += "[!] Error while calling the function 'calculateData'!\n";
+          console.log(exception);
+        });
+        //  if (data.indexOf("[") > -1) {
+        //    console.log("[if]", data);
+        //    this.drawPlot(lhs, rhs, JSON.parse(data));
+        //  }
         }
       }
     }
@@ -72,7 +88,7 @@ export class VisualizePage implements OnInit {
       height = 250 - margin.top - margin.bottom;
     
     // append the svg object to the body of the page
-    var svg = d3.select("#"+"myHeatmap")
+    var svg = d3.select("#rfdHeatmap")
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -81,9 +97,17 @@ export class VisualizePage implements OnInit {
             "translate(" + margin.left + "," + margin.top + ")");
     
     // Labels of row and columns
-    var myGroups = ["0", "1", "2", "3"];
-    var myVars = ["1", "2", "3"];
-    
+    // var myGroups = ["0", "1", "2", "3"];
+    // var myVars = ["1", "2", "3"];
+    var myGroups = new Array<string>();
+    var myVars = new Array<string>();
+    for (let i = 0; i <= this.threshold; i++) {
+      myGroups[i] = ""+i;
+    }
+    for (let i = 1; i < this.attributes.length - 1; i++) {
+      myVars[i] = ""+i;
+    }
+    console.log(myGroups, myVars);
     // Build X scales and axis:
     var x = d3.scaleBand()
       .range([ 0, width ])
@@ -129,5 +153,6 @@ export class VisualizePage implements OnInit {
             .attr("text-anchor", "left")
             .style("font-size", "14px")
             .text(lhs + " → " + rhs);
+    this.hideButton = true;
   }
 }
