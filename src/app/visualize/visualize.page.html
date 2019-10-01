@@ -32,7 +32,7 @@
             <ion-button color="primary" expand="block" (click)="analyzeFile()">
               <ion-icon name="analytics"></ion-icon>
               Analyze
-            </ion-button>
+            </ion-button>            
           </div>
         </ion-col>
       </ion-row>
@@ -50,11 +50,11 @@
     <ion-grid>
       <ion-row *ngFor="let lhs of attributes">
         <ion-col *ngFor="let rhs of attributes">
-          <div id="{{lhs + '>' + rhs}}">
-            <span *ngIf="lhs != rhs">{{ lhs + '->' + rhs}}</span>
+          <div id="{{lhs + '-' + rhs}}">
           </div>
         </ion-col>
       </ion-row>
     </ion-grid>
+    <div id="myHeatmap"></div>
   </div>
 </ion-content>

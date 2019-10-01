@@ -66,7 +66,7 @@ export class RelaxedFunctionalDependence {
                 console.log("Error: hand side undefined!");
                 return undefined;
         }
-        console.log("RFD doesn't contains " + attribute + "!");
+        //console.log("RFD doesn't contains " + attribute + "!");
         return undefined;
     }
     
