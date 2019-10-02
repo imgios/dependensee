@@ -56,79 +56,78 @@ export class AnalyzerService {
     })
   }
 
-  calculateData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, maxThreshold: number, maxCardinality: number): Promise<any>{
-    return new Promise((resolve, reject) => {
-      if (typeof rfdSet === "undefined"
-        || typeof lhsAttribute === "undefined"
-        || typeof rhsAttribute === "undefined"
-        || lhsAttribute.length < 1
-        || rhsAttribute.length < 1) {
-          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
-          reject("Invalid arguments passed!");
-        } else {
-          console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
-          let data: string = '[';
-          let empty: boolean = true;
-          for (let i = 0; i <= maxThreshold; i++) { // x axis
-            for (let j = 1; j <= maxCardinality; j++) { // y axis
-              let tempLHS: [string, number] = [lhsAttribute, Number.NEGATIVE_INFINITY];
-              for (let rfd of rfdSet) {
-                let rfdLHS = rfd.contains("lhs", lhsAttribute);
-                let rfdRHS = rfd.contains("rhs", rhsAttribute);
-                if (rfdLHS !== undefined && rfdRHS !== undefined) {
-                  if (rfdLHS[1] > tempLHS[1] && rfdRHS[1] == i && rfd.getLHS().length == j) {
-                    tempLHS = rfdLHS;
-                  }
-                }
-              }
-              if (tempLHS[1] > Number.NEGATIVE_INFINITY) {
-                data = (empty) ? data : data + ',';
-                data += '{"lhsThreshold":'+ tempLHS[1] + ',"rhsThreshold":' + i + ',"cardinality":' + j + "}";
-                empty = false;
-              }
-            }
-          }
-          data += ']';
-          console.log(data);   
-          return (data !== '[]') ? resolve(data) : reject("Data not found!");
-        }
-    });
-  }
-
-  // retrieveData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, maxThreshold: number, maxCardinality: number): string {
-  //   if (typeof rfdSet === "undefined"
-  //   || typeof lhsAttribute === "undefined"
-  //   || typeof rhsAttribute === "undefined"
-  //   || lhsAttribute.length < 1
-  //   || rhsAttribute.length < 1) {
-  //     console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
-  //     return "Invalid arguments passed!";
-  //   } else {
-  //     console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
-  //     let data: string = '[';
-  //     let empty: boolean = true;
-  //     for (let i = 0; i <= maxThreshold; i++) { // x axis
-  //       for (let j = 1; j <= maxCardinality; j++) { // y axis
-  //         let tempLHS: [string, number] = [lhsAttribute, Number.NEGATIVE_INFINITY];
-  //         for (let rfd of rfdSet) {
-  //           let rfdLHS = rfd.contains("lhs", lhsAttribute);
-  //           let rfdRHS = rfd.contains("rhs", rhsAttribute);
-  //           if (rfdLHS !== undefined && rfdRHS !== undefined) {
-  //             if (rfdLHS[1] > tempLHS[1] && rfdRHS[1] == i && rfd.getLHS().length == j) {
-  //               tempLHS = rfdLHS;
+  // calculateData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, maxThreshold: number, maxCardinality: number): Promise<any>{
+  //   return new Promise((resolve, reject) => {
+  //     if (typeof rfdSet === "undefined"
+  //       || typeof lhsAttribute === "undefined"
+  //       || typeof rhsAttribute === "undefined"
+  //       || lhsAttribute.length < 1
+  //       || rhsAttribute.length < 1) {
+  //         //console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
+  //         reject("Invalid arguments passed!");
+  //       } else {
+  //         //console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
+  //         let data: string = '[';
+  //         let empty: boolean = true;
+  //         for (let i = 0; i <= maxThreshold; i++) { // x axis
+  //           for (let j = 1; j <= maxCardinality; j++) { // y axis
+  //             let tempLHS: [string, number] = [lhsAttribute, Number.NEGATIVE_INFINITY];
+  //             for (let rfd of rfdSet) {
+  //               let rfdLHS = rfd.contains("lhs", lhsAttribute);
+  //               let rfdRHS = rfd.contains("rhs", rhsAttribute);
+  //               if (rfdLHS !== undefined && rfdRHS !== undefined) {
+  //                 if (rfdLHS[1] > tempLHS[1] && rfdRHS[1] == i && rfd.getLHS().length == j) {
+  //                   tempLHS = rfdLHS;
+  //                 }
+  //               }
+  //             }
+  //             if (tempLHS[1] > Number.NEGATIVE_INFINITY) {
+  //               data = (empty) ? data : data + ',';
+  //               data += '{"lhsThreshold":'+ tempLHS[1] + ',"rhsThreshold":' + i + ',"cardinality":' + j + "}";
+  //               empty = false;
   //             }
   //           }
   //         }
-  //         if (tempLHS[1] > Number.NEGATIVE_INFINITY) {
-  //           data = (empty) ? data : data + ',';
-  //           data += '{"lhsThreshold":'+ tempLHS[1] + ',"rhsThreshold":' + i + ',"cardinality":' + j + "}";
-  //           empty = false;
-  //         }
+  //         data += ']';
+  //         return (data !== '[]') ? resolve(data) : reject("Data not found!");
   //       }
-  //     }
-  //     data += ']';
-  //     return (data !== '[]') ? data : "Data not found!";
-  //   }
+  //   });
   // }
+
+  retrieveData(rfdSet: Array<RelaxedFunctionalDependence>, lhsAttribute: string, rhsAttribute: string, maxThreshold: number, maxCardinality: number): string {
+    if (typeof rfdSet === "undefined"
+    || typeof lhsAttribute === "undefined"
+    || typeof rhsAttribute === "undefined"
+    || lhsAttribute.length < 1
+    || rhsAttribute.length < 1) {
+      console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
+      return "Invalid arguments passed!";
+    } else {
+      console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
+      let data: string = '[';
+      let empty: boolean = true;
+      for (let i = 0; i <= maxThreshold; i++) { // x axis
+        for (let j = 1; j <= maxCardinality; j++) { // y axis
+          let tempLHS: [string, number] = [lhsAttribute, Number.NEGATIVE_INFINITY];
+          for (let rfd of rfdSet) {
+            let rfdLHS = rfd.contains("lhs", lhsAttribute);
+            let rfdRHS = rfd.contains("rhs", rhsAttribute);
+            if (rfdLHS !== undefined && rfdRHS !== undefined) {
+              if (rfdLHS[1] > tempLHS[1] && rfdRHS[1] == i && rfd.getLHS().length == j) {
+                tempLHS = rfdLHS;
+              }
+            }
+          }
+          if (tempLHS[1] > Number.NEGATIVE_INFINITY) {
+            data = (empty) ? data : data + ',';
+            data += '{"lhsThreshold":'+ tempLHS[1] + ',"rhsThreshold":' + i + ',"cardinality":' + j + "}";
+            empty = false;
+          }
+        }
+      }
+      data += ']';
+      return (data !== '[]') ? data : "Data not found!";
+    }
+  }
 
 }
