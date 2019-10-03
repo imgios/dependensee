@@ -258,8 +258,8 @@ export class VisualizePage implements OnInit {
           graph.append("line")
                 .attr("x1", 0)
                 .attr("y1", 0)
-                .attr("x2", 100)
-                .attr("y2", 100)
+                .attr("x2", this.gWidth)
+                .attr("y2", this.gHeight)
                 .attr("stroke-width", 2)
                 .attr("stroke", "black");
         }
