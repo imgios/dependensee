@@ -75,7 +75,7 @@ export class VisualizePage implements OnInit {
     }
   }
 
-  plotCell(graph, data) {
+  plotCell(graph, data, i, j) {
     // Color scales
     var fillColor = d3.scaleLinear()
       .range(["#e53935", "white"])
@@ -90,17 +90,21 @@ export class VisualizePage implements OnInit {
     .range([ 0, this.gWidth ])
     .domain(this.myGroups)
     .padding(0.01);
-    graph.append("g")
+    if (i == this.attributes.length-1) {
+      graph.append("g")
       .attr("transform", "translate(0," + this.gHeight + ")")
       .call(d3.axisBottom(x));
+    }
     
-    // Build X scales and axis:
+    // Build Y scales and axis:
     var y = d3.scaleBand()
       .range([ this.gHeight, 0 ])
       .domain(this.myVars)
       .padding(0.01);
-    graph.append("g")
+    if (j == 0) {
+      graph.append("g")
       .call(d3.axisLeft(y));
+    }
 
     // Attach data
     graph.selectAll()
@@ -208,9 +212,28 @@ export class VisualizePage implements OnInit {
           let rfdData = this.analyzer.retrieveData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
           if (rfdData.indexOf("Data not found!") < 0) {
             console.log(rfdData);
-            this.plotCell(graph, JSON.parse(rfdData));
+            this.plotCell(graph, JSON.parse(rfdData), i, j);
           }
         } else {
+          if (i == this.attributes.length - 1) {
+            // Build X scales and axis
+            var x = d3.scaleBand()
+            .range([ 0, this.gWidth ])
+            .domain(this.myGroups)
+            .padding(0.01);
+            graph.append("g")
+            .attr("transform", "translate(0," + this.gHeight + ")")
+            .call(d3.axisBottom(x));
+          }
+          if (j == 0) {
+            // Build Y scales and axis
+            var y = d3.scaleBand()
+            .range([ this.gHeight, 0 ])
+            .domain(this.myVars)
+            .padding(0.01);
+            graph.append("g")
+            .call(d3.axisLeft(y));
+          }
           graph.append("line")
                 .attr("x1", 0)
                 .attr("y1", 0)
