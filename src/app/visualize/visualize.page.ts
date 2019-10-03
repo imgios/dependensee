@@ -158,6 +158,7 @@ export class VisualizePage implements OnInit {
     .attr("y", 20)
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
+    .style("font-weight", "800")
     .text("RHS");
 
     // RHS Threshold
@@ -166,6 +167,7 @@ export class VisualizePage implements OnInit {
     .attr("y", this.matrixHeight - (this.matrixMargin.bottom / 2))
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
+    .style("font-weight", "800")
     .text("RHS Threshold");
 
     // LHS
@@ -175,6 +177,7 @@ export class VisualizePage implements OnInit {
     .attr("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
     .style("font-size", "14px")
+    .style("font-weight", "800")
     .text("LHS");
 
     // LHS Cardinality
@@ -184,24 +187,25 @@ export class VisualizePage implements OnInit {
     .attr("text-anchor", "middle")
     .attr("transform", "rotate(90)")
     .style("font-size", "14px")
+    .style("font-weight", "800")
     .text("LHS Cardinality");
 
     // Attributes Labels
-    var xOffset = this.matrixMargin.left + (this.gWidth/* + this.gMargin.left + this.gMargin.right)*/ / 2);
-    var xOffsetRotate = this.matrixMargin.top + (this.gHeight /*+ this.gMargin.left + this.gMargin.right)*//2);
+    var xOffset = this.matrixMargin.left + this.gWidth;
+    var xOffsetRotate = -(this.matrixMargin.top + this.gHeight);
     console.log(xOffset, xOffsetRotate);
     for (let attribute of this.attributes) {
       if (this.attributes.indexOf(attribute) > 0) {
-        xOffset += this.gWidth + this.matrixMargin.left + this.gMargin.left + this.gMargin.right;
+        xOffset += this.gWidth + this.matrixMargin.left;
       }
       svg.append("text")
       .attr("x", xOffset)
-      .attr("y", this.matrixMargin.top)
+      .attr("y", this.matrixMargin.top + ((this.matrixMargin.top * 2)/3))
       .attr("text-anchor", "middle")
       .attr("font-size", "11px")
       .text(attribute);
       if (this.attributes.indexOf(attribute) > 0) {
-        xOffsetRotate -= this.gHeight /*+ this.gMargin.top + this.gMargin.bottom*/;
+        xOffsetRotate -= this.gHeight + this.matrixMargin.top;
       }
       svg.append("text")
       .attr("x", xOffsetRotate)
