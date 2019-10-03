@@ -113,7 +113,7 @@ export class AnalyzerService {
             let rfdLHS = rfd.contains("lhs", lhsAttribute);
             let rfdRHS = rfd.contains("rhs", rhsAttribute);
             if (rfdLHS !== undefined && rfdRHS !== undefined) {
-              if (rfdLHS[1] > tempLHS[1] && rfdRHS[1] == i && rfd.getLHS().length == j) {
+              if (rfdLHS[1] > tempLHS[1] && rfdLHS[1] < maxThreshold && rfdRHS[1] == i && rfd.getLHS().length == j) {
                 tempLHS = rfdLHS;
               }
             }

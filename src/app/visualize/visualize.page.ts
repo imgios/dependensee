@@ -76,48 +76,72 @@ export class VisualizePage implements OnInit {
   }
 
   plotCell(graph, data, i, j) {
-    // Color scales
-    var fillColor = d3.scaleLinear()
-      .range(["#e53935", "white"])
-      .domain([0, this.threshold]);
-    
-    var borderColor = d3.scaleLinear()
-        .range(["#1976d2", "white"])
-        .domain([0, this.threshold]);
-
-    // Build X scales and axis:
-    var x = d3.scaleBand()
-    .range([ 0, this.gWidth ])
-    .domain(this.myGroups)
-    .padding(0.01);
-    if (i == this.attributes.length-1) {
-      graph.append("g")
-      .attr("transform", "translate(0," + this.gHeight + ")")
-      .call(d3.axisBottom(x));
-    }
-    
-    // Build Y scales and axis:
-    var y = d3.scaleBand()
-      .range([ this.gHeight, 0 ])
-      .domain(this.myVars)
+    if (typeof data == 'string' && data.indexOf('Data not found') > -1) {
+      // Build X scales and axis:
+      var x = d3.scaleBand()
+      .range([ 0, this.gWidth ])
+      .domain(this.myGroups)
       .padding(0.01);
-    if (j == 0) {
-      graph.append("g")
-      .call(d3.axisLeft(y));
-    }
+      if (i == this.attributes.length-1) {
+        graph.append("g")
+        .attr("transform", "translate(0," + this.gHeight + ")")
+        .call(d3.axisBottom(x));
+      }
+      
+      // Build Y scales and axis:
+      var y = d3.scaleBand()
+        .range([ this.gHeight, 0 ])
+        .domain(this.myVars)
+        .padding(0.01);
+      if (j == 0) {
+        graph.append("g")
+        .call(d3.axisLeft(y));
+      }
+    } else {
+      data = JSON.parse(data);
+      // Color scales
+      var fillColor = d3.scaleLinear()
+        .range(["#e53935", "white"])
+        .domain([0, this.threshold]);
+      
+      var borderColor = d3.scaleLinear()
+          .range(["#1976d2", "white"])
+          .domain([0, this.threshold]);
 
-    // Attach data
-    graph.selectAll()
-    .data(data, function(d){return d.rhsThreshold+":"+d.cardinality})
-    .enter()
-    .append("rect")
-    .attr("x", function(d){return x(d.rhsThreshold)})
-    .attr("y", function(d){return y(d.cardinality)})
-    .attr("width", x.bandwidth())
-    .attr("height", y.bandwidth())
-    .style("fill", function(d) {return fillColor(d.rhsThreshold)})
-    .style("stroke-width", "3px")
-    .style("stroke", function(d) {return borderColor(d.lhsThreshold)});
+      // Build X scales and axis:
+      var x = d3.scaleBand()
+      .range([ 0, this.gWidth ])
+      .domain(this.myGroups)
+      .padding(0.01);
+      if (i == this.attributes.length-1) {
+        graph.append("g")
+        .attr("transform", "translate(0," + this.gHeight + ")")
+        .call(d3.axisBottom(x));
+      }
+      
+      // Build Y scales and axis:
+      var y = d3.scaleBand()
+        .range([ this.gHeight, 0 ])
+        .domain(this.myVars)
+        .padding(0.01);
+      if (j == 0) {
+        graph.append("g")
+        .call(d3.axisLeft(y));
+      }
+
+      // Attach data
+      graph.selectAll()
+      .data(data, function(d){return d.rhsThreshold+":"+d.cardinality})
+      .enter()
+      .append("rect")
+      .attr("x", function(d){return x(d.rhsThreshold)})
+      .attr("y", function(d){return y(d.cardinality)})
+      .attr("width", x.bandwidth())
+      .attr("height", y.bandwidth())
+      .style("fill", function(d) {return fillColor(d.rhsThreshold)})
+      .style("stroke-width", "3px")
+      .style("stroke", function(d) {return borderColor(d.lhsThreshold)});
+    }
   }
 
   drawMatrix() {
@@ -210,10 +234,7 @@ export class VisualizePage implements OnInit {
         if (i != j) {
           console.log(this.attributes[i], this.attributes[j]);
           let rfdData = this.analyzer.retrieveData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
-          if (rfdData.indexOf("Data not found!") < 0) {
-            console.log(rfdData);
-            this.plotCell(graph, JSON.parse(rfdData), i, j);
-          }
+          this.plotCell(graph, rfdData, i, j);
         } else {
           if (i == this.attributes.length - 1) {
             // Build X scales and axis

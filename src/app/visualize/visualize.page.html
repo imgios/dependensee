@@ -49,17 +49,21 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row [hidden]='!hideButton'>
-        <ion-col>
-          <div class="ion-text-center">
-            You can check the result below. You must refresh the page if you want to analyze another dataset.
-          </div>
-        </ion-col>
-      </ion-row>
       <!-- <ion-row [hidden]='!hideButton'>
         <ion-col size="2">Legend:</ion-col>
         <ion-col size="4">ToDo: RHS Legend and LHS Legend</ion-col>
       </ion-row> -->
+      <ion-row [hidden]='!hideButton'>
+          <ion-col>
+              <div class="ion-text-center">
+                  <ion-item>
+                    <ion-button color="success" onClick="window.location.reload();">
+                      Analyze another dataset!
+                    </ion-button>
+                  </ion-item>
+              </div>
+            </ion-col>
+        </ion-row>
     </ion-grid>
     <div id="rfdHeatmap" style="text-align:center;"></div>
   </div>
