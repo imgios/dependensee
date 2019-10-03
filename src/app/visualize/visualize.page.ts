@@ -211,7 +211,7 @@ export class VisualizePage implements OnInit {
       .attr("x", xOffsetRotate)
       .attr("y", this.matrixMargin.top + (this.matrixMargin.top/2))
       .attr("transform", "rotate(-90)")
-      .attr("text-anchor", "center")
+      .attr("text-anchor", "middle")
       .attr("font-size", "11px")
       .text(attribute);
     }
