@@ -52,16 +52,6 @@ export class VisualizePage implements OnInit {
     this.fileLogs += "[!] Is a file? " + isFile + "\n";
     this.fileLogs += "[!] File uploaded: " + this.fileUploaded + "\n";
     this.fileLogs += "[!] File extension: ." + this.fileUploaded.name.split('.').pop() + "\n";
-
-    // // TESTING PURPOSES
-    // let data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-    // for (let i = 0; i < 3; i++) {
-    //   for (let j = 0; j < 3; j++) {
-    //     console.log(i + ", " + j + ": " + data[i][j]);
-    //   }
-    // }
-    // console.log(data);
-    // //
   }
 
   analyzeFile() {
@@ -157,12 +147,6 @@ export class VisualizePage implements OnInit {
   }
 
   drawMatrix() {
-    // // TESTING PURPOSES
-    // let testing = this.analyzer.retrieveNewData(this.rfdSet, "YEAR", "TITLE", 4, this.attributes.length - 1);
-    // let testing2 = this.analyzer.retrieveData(this.rfdSet, "YEAR", "TITLE", 4, this.attributes.length - 1);
-    // console.log("\n\n", "---------->", testing, "\n", testing2, "\n\n");
-    // //
-
     // append the svg object to the body of the page
     var svg = d3.select("#rfdHeatmap")
               .append("svg")
@@ -255,7 +239,7 @@ export class VisualizePage implements OnInit {
         .attr("transform","translate(" + (this.gMargin.left+columnOffset+2*this.matrixMargin.left) + "," + (this.gMargin.top+rowOffset+2*this.matrixMargin.bottom) + ")");
         if (i != j) {
           //console.log(this.attributes[i], this.attributes[j]);
-          let rfdData = this.analyzer.retrieveNewData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
+          let rfdData = this.analyzer.retrieveData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
           this.plotCell(graph, rfdData, i, j);
         } else {
           if (i == this.attributes.length - 1) {
