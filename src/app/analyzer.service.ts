@@ -134,17 +134,17 @@ export class AnalyzerService {
             }
           }
           if (!found) {
-            if (i == 0 && j > 1) { // first column
+            if (i == 0 && j > 1) {
               if (rfdArray[i][j-1].lhsThreshold != Number.NEGATIVE_INFINITY) {
                 tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
                 tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
               }
-            } else if (i > 0 && j == 1) { // first row
+            } else if (i > 0 && j == 1) {
               if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
                 tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
                 tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
               }
-            } else if (i > 0 && j > 1) { // middle
+            } else if (i > 0 && j > 1) {
               if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY && rfdArray[i-1][j].lhsThreshold > rfdArray[i][j-1].lhsThreshold) {
                 tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
                 tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;

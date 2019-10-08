@@ -81,7 +81,7 @@ export class VisualizePage implements OnInit {
       var x = d3.scaleBand()
       .range([ 0, this.gWidth ])
       .domain(this.myGroups)
-      .padding(0.01);
+      .padding(0.5);
       if (i == this.attributes.length-1) {
         graph.append("g")
         .attr("transform", "translate(0," + this.gHeight + ")")
@@ -92,7 +92,7 @@ export class VisualizePage implements OnInit {
       var y = d3.scaleBand()
         .range([ this.gHeight, 0 ])
         .domain(this.myVars)
-        .padding(0.01);
+        .padding(0.5);
       if (j == 0) {
         graph.append("g")
         .call(d3.axisLeft(y));
@@ -114,7 +114,7 @@ export class VisualizePage implements OnInit {
       var x = d3.scaleBand()
       .range([ 0, this.gWidth ])
       .domain(this.myGroups)
-      .padding(0.01);
+      .padding(0.1);
       if (i == this.attributes.length-1) {
         graph.append("g")
         .attr("transform", "translate(0," + this.gHeight + ")")
@@ -125,7 +125,7 @@ export class VisualizePage implements OnInit {
       var y = d3.scaleBand()
         .range([ this.gHeight, 0 ])
         .domain(this.myVars)
-        .padding(0.01);
+        .padding(0.1);
       if (j == 0) {
         graph.append("g")
         .call(d3.axisLeft(y));
@@ -141,7 +141,7 @@ export class VisualizePage implements OnInit {
       .attr("width", x.bandwidth())
       .attr("height", y.bandwidth())
       .style("fill", function(d) {console.log("\n\n::FILL COLOR::", typeof fillColor(d.rhsThreshold), fillColor(d.rhsThreshold)); return fillColor(d.rhsThreshold)})
-      .style("stroke-width", "3px")
+      .style("stroke-width", "4px")
       .style("stroke", function(d) {return borderColor(d.lhsThreshold)});
     }
   }
@@ -247,7 +247,7 @@ export class VisualizePage implements OnInit {
             var x = d3.scaleBand()
             .range([ 0, this.gWidth ])
             .domain(this.myGroups)
-            .padding(0.01);
+            .padding(0.1);
             graph.append("g")
             .attr("transform", "translate(0," + this.gHeight + ")")
             .call(d3.axisBottom(x));
@@ -257,7 +257,7 @@ export class VisualizePage implements OnInit {
             var y = d3.scaleBand()
             .range([ this.gHeight, 0 ])
             .domain(this.myVars)
-            .padding(0.01);
+            .padding(0.1);
             graph.append("g")
             .call(d3.axisLeft(y));
           }
