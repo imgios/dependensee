@@ -112,7 +112,8 @@ export class AnalyzerService {
           rfdArray[i][j] = {
             lhsThreshold: Number.NEGATIVE_INFINITY, 
             rhsThreshold: Number.NEGATIVE_INFINITY, 
-            cardinality: Number.NEGATIVE_INFINITY};
+            cardinality: j};
+            console.log(i + " - " + j);
         }
       }
       let empty: boolean = true;
@@ -134,16 +135,20 @@ export class AnalyzerService {
           }
           if (!found) {
             if (i == 0 && j > 1) { // first column
-              tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
-              tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
+              if (rfdArray[i][j-1].lhsThreshold != Number.NEGATIVE_INFINITY) {
+                tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
+                tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
+              }
             } else if (i > 0 && j == 1) { // first row
-              tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
-              tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
-            } else if (i > 0 && j > 1) { // middle
-              if (rfdArray[i-1][j].lhsThreshold > rfdArray[i][j-1].lhsThreshold) {
+              if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
                 tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
                 tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
-              } else {
+              }
+            } else if (i > 0 && j > 1) { // middle
+              if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY && rfdArray[i-1][j].lhsThreshold > rfdArray[i][j-1].lhsThreshold) {
+                tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
+                tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
+              } else if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
                 tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
                 tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
               }
