@@ -52,6 +52,16 @@ export class VisualizePage implements OnInit {
     this.fileLogs += "[!] Is a file? " + isFile + "\n";
     this.fileLogs += "[!] File uploaded: " + this.fileUploaded + "\n";
     this.fileLogs += "[!] File extension: ." + this.fileUploaded.name.split('.').pop() + "\n";
+
+    // // TESTING PURPOSES
+    // let data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+    // for (let i = 0; i < 3; i++) {
+    //   for (let j = 0; j < 3; j++) {
+    //     console.log(i + ", " + j + ": " + data[i][j]);
+    //   }
+    // }
+    // console.log(data);
+    // //
   }
 
   analyzeFile() {
@@ -101,11 +111,13 @@ export class VisualizePage implements OnInit {
       data = JSON.parse(data);
       // Color scales
       var fillColor = d3.scaleLinear()
-        .range(["#e53935", "white"])
+        //.range(["#e53935", "white"])
+        .range(["#b71c1c", "#ffcdd2"])
         .domain([0, this.threshold]);
       
       var borderColor = d3.scaleLinear()
-          .range(["#1976d2", "white"])
+          //.range(["#1976d2", "white"])
+          .range(["#0d47a1", "#90caf9"])
           .domain([0, this.threshold]);
 
       // Build X scales and axis:
@@ -138,13 +150,19 @@ export class VisualizePage implements OnInit {
       .attr("y", function(d){return y(d.cardinality)})
       .attr("width", x.bandwidth())
       .attr("height", y.bandwidth())
-      .style("fill", function(d) {return fillColor(d.rhsThreshold)})
+      .style("fill", function(d) {console.log("\n\n::FILL COLOR::", typeof fillColor(d.rhsThreshold), fillColor(d.rhsThreshold)); return fillColor(d.rhsThreshold)})
       .style("stroke-width", "3px")
       .style("stroke", function(d) {return borderColor(d.lhsThreshold)});
     }
   }
 
   drawMatrix() {
+    // // TESTING PURPOSES
+    // let testing = this.analyzer.retrieveNewData(this.rfdSet, "YEAR", "TITLE", 4, this.attributes.length - 1);
+    // let testing2 = this.analyzer.retrieveData(this.rfdSet, "YEAR", "TITLE", 4, this.attributes.length - 1);
+    // console.log("\n\n", "---------->", testing, "\n", testing2, "\n\n");
+    // //
+
     // append the svg object to the body of the page
     var svg = d3.select("#rfdHeatmap")
               .append("svg")
@@ -193,7 +211,7 @@ export class VisualizePage implements OnInit {
     // Attributes Labels
     var xOffset = this.matrixMargin.left + this.gWidth;
     var xOffsetRotate = -(this.matrixMargin.top + this.gHeight);
-    console.log(xOffset, xOffsetRotate);
+    //console.log(xOffset, xOffsetRotate);
     for (let attribute of this.attributes) {
       if (this.attributes.indexOf(attribute) > 0) {
         xOffset += this.gWidth + this.matrixMargin.left;
@@ -236,8 +254,8 @@ export class VisualizePage implements OnInit {
         var graph = svg.append("g")
         .attr("transform","translate(" + (this.gMargin.left+columnOffset+2*this.matrixMargin.left) + "," + (this.gMargin.top+rowOffset+2*this.matrixMargin.bottom) + ")");
         if (i != j) {
-          console.log(this.attributes[i], this.attributes[j]);
-          let rfdData = this.analyzer.retrieveData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
+          //console.log(this.attributes[i], this.attributes[j]);
+          let rfdData = this.analyzer.retrieveNewData(this.rfdSet, this.attributes[i], this.attributes[j], this.threshold, this.attributes.length - 1);
           this.plotCell(graph, rfdData, i, j);
         } else {
           if (i == this.attributes.length - 1) {
