@@ -140,9 +140,21 @@ export class VisualizePage implements OnInit {
       .attr("y", function(d){return y(d.cardinality)})
       .attr("width", x.bandwidth())
       .attr("height", y.bandwidth())
-      .style("fill", function(d) {console.log("\n\n::FILL COLOR::", typeof fillColor(d.rhsThreshold), fillColor(d.rhsThreshold)); return fillColor(d.rhsThreshold)})
+      .style("fill", function(d) {
+        if (typeof d.lhsThreshold == "string" && d.lhsThreshold.indexOf("-Infinity") > -1) {
+          return d3.rgb(149, 149, 149);
+        } else {
+          return fillColor(d.rhsThreshold);
+        }
+      })
       .style("stroke-width", "4px")
-      .style("stroke", function(d) {return borderColor(d.lhsThreshold)});
+      .style("stroke", function(d) {
+        if (typeof d.lhsThreshold == "string" && d.lhsThreshold.indexOf("-Infinity") > -1) {
+          return d3.rgb(149, 149, 149);
+        } else {
+          return borderColor(d.lhsThreshold);
+        }
+      });
     }
   }
 

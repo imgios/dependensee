@@ -111,7 +111,7 @@ export class AnalyzerService {
         for (let j = 1; j <= maxCardinality; j++) {
           rfdArray[i][j] = {
             lhsThreshold: Number.NEGATIVE_INFINITY, 
-            rhsThreshold: Number.NEGATIVE_INFINITY, 
+            rhsThreshold: i, 
             cardinality: j};
             console.log(i + " - " + j);
         }
@@ -156,18 +156,17 @@ export class AnalyzerService {
           }
           rfdArray[i][j] = {
             lhsThreshold: tempRFD[0],
-            rhsThreshold: tempRFD[1],
+            rhsThreshold: i,
             cardinality: j
           };
         }
       }
       for (let i = 0; i <= maxThreshold; i++) {
         for (let j = 1; j <= maxCardinality; j++) {
-          if (rfdArray[i][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
-            data = (empty) ? data : data + ',';
-            data += '{"lhsThreshold":'+ rfdArray[i][j].lhsThreshold + ',"rhsThreshold":' + rfdArray[i][j].rhsThreshold + ',"cardinality":' + rfdArray[i][j].cardinality + "}";
-            empty = false;
-          }
+          let lhsInfinity = (rfdArray[i][j].lhsThreshold != Number.NEGATIVE_INFINITY) ? rfdArray[i][j].lhsThreshold : '"-Infinity"';
+          data = (empty) ? data : data + ',';
+          data += '{"lhsThreshold":'+ lhsInfinity + ',"rhsThreshold":' + rfdArray[i][j].rhsThreshold + ',"cardinality":' + rfdArray[i][j].cardinality + "}";
+          empty = false;
         }
       }
       data += ']';
