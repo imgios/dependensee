@@ -171,13 +171,44 @@ export class VisualizePage implements OnInit {
   }
 
   drawMatrix() {
-    // append the svg object to the body of the page
+    // Append the svg object to the body of the page
     var svg = d3.select("#rfdHeatmap")
               .append("svg")
               .attr("width", this.matrixWidth + this.matrixMargin.left + this.matrixMargin.right)
               .attr("height", this.matrixHeight + this.matrixMargin.top + this.matrixMargin.bottom);
-    
-    // create matrix labels
+
+    // Append defs to the svg
+    var defs = svg.append("defs");
+
+    // Append legend gradients to defs
+    var rhsGradient = defs.append("linearGradient")
+                        .attr("id", "rhsGradient");
+    var lhsGradient = defs.append("linearGradient")
+                        .attr("id", "lhsGradient");
+    // RHS Gradient
+    rhsGradient.attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0%");
+    rhsGradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#b71c1c");
+    rhsGradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#ffcdd2");
+    //LHS Gradient
+    lhsGradient.attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0%");
+    lhsGradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#0d47a1");
+    lhsGradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#90caf9");
+
+    // Create matrix labels
     // RHS
     svg.append("text")
     .attr("x", this.matrixWidth/2)
@@ -215,6 +246,45 @@ export class VisualizePage implements OnInit {
     .style("font-size", "14px")
     .style("font-weight", "800")
     .text("LHS Cardinality");
+
+    // Legend RHS
+    svg.append("text")
+    .attr("x", this.matrixMargin.left)
+    .attr("y", this.matrixHeight + (this.matrixMargin.top/3))
+    .attr("font-size", "14px")
+    .text("RHS Threshold 0");
+    svg.append("rect")
+    .attr("x", this.matrixMargin.left + 110)
+    .attr("y", this.matrixHeight + (this.matrixMargin.top/3) - 15)
+    .attr("width", 60)
+    .attr("height", 20)
+    .attr("fill", "url(#rhsGradient)")
+    .attr("stroke", d3.rgb(0, 0, 0))
+    .attr("stroke-width", 1);
+    svg.append("text")
+    .attr("x", this.matrixMargin.left + 175)
+    .attr("y", this.matrixHeight + (this.matrixMargin.top/3))
+    .attr("font-size", "14px")
+    .text(this.threshold);
+    // Legend LHS
+    svg.append("text")
+    .attr("x", this.matrixMargin.left)
+    .attr("y", this.matrixHeight + this.matrixMargin.top)
+    .attr("font-size", "14px")
+    .text("LHS Threshold 0");
+    svg.append("rect")
+    .attr("x", this.matrixMargin.left + 110)
+    .attr("y", this.matrixHeight + this.matrixMargin.top - 15)
+    .attr("width", 60)
+    .attr("height", 20)
+    .attr("fill", "url(#lhsGradient)")
+    .attr("stroke", d3.rgb(0, 0, 0))
+    .attr("stroke-width", 1);
+    svg.append("text")
+    .attr("x", this.matrixMargin.left + 175)
+    .attr("y", this.matrixHeight + this.matrixMargin.top)
+    .attr("font-size", "14px")
+    .text(this.threshold);
 
     // Matrix Container
     svg.append("rect")
@@ -307,5 +377,6 @@ export class VisualizePage implements OnInit {
     }
     this.hideButton = true;
     this.fileLogs += "[!] Plots generated!\n";
+    this.presentToast("Plots generated, check it below.");
   }
 }
