@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyzerService } from '../analyzer.service';
 import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
+import { ToastController } from '@ionic/angular';
 declare var d3: any;
 
 @Component({
@@ -33,12 +34,21 @@ export class VisualizePage implements OnInit {
   myGroups: Array<string>;
   myVars: Array<string>;
 
-  constructor(public analyzer: AnalyzerService) {
+  constructor(public analyzer: AnalyzerService, public toastCtrl: ToastController) {
     this.hideButton = false;
     this.hideLogs = true;
   }
 
   ngOnInit() {
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
   }
 
   toggleLogs(event) {
@@ -68,10 +78,12 @@ export class VisualizePage implements OnInit {
         this.fileLogs += "[!] " + reason + "\n";
       }).catch((exception) => {
         this.fileLogs += "[!] Error while calling the function 'analyzeFile'!\n";
+        this.presentToast("Error while analyzing the dataset. Please, try again.");
         console.log(exception);
       });
     } else {
       this.fileLogs += "[!] Invalid threshold value or file!\n";
+      this.presentToast("Invalid threshold value or file! Please, try again.");
     }
   }
 
