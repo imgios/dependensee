@@ -204,6 +204,16 @@ export class VisualizePage implements OnInit {
     .style("font-weight", "800")
     .text("LHS Cardinality");
 
+    // Matrix Container
+    svg.append("rect")
+    .attr("x", this.matrixMargin.left)
+    .attr("y", this.matrixMargin.top)
+    .attr("width", ((this.gWidth + this.matrixMargin.left) * this.attributes.length) + this.matrixMargin.left)
+    .attr("height", ((this.gHeight + this.matrixMargin.bottom + 1.5) * this.attributes.length) + this.matrixMargin.bottom)
+    .attr("fill", d3.rgb(235, 235, 235))
+    .attr("stroke", d3.rgb(0, 0, 0))
+    .attr("stroke-width", 1);
+
     // Attributes Labels
     var xOffset = this.matrixMargin.left + this.gWidth;
     var xOffsetRotate = -(this.matrixMargin.top + this.gHeight);
