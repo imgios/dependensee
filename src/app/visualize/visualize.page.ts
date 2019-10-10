@@ -3,6 +3,7 @@ import { AnalyzerService } from '../analyzer.service';
 import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
 import { ToastController } from '@ionic/angular';
 declare var d3: any;
+declare var svgPanZoom: any;
 
 @Component({
   selector: 'app-visualize',
@@ -175,7 +176,8 @@ export class VisualizePage implements OnInit {
     var svg = d3.select("#rfdHeatmap")
               .append("svg")
               .attr("width", this.matrixWidth + this.matrixMargin.left + this.matrixMargin.right)
-              .attr("height", this.matrixHeight + this.matrixMargin.top + this.matrixMargin.bottom);
+              .attr("height", this.matrixHeight + this.matrixMargin.top + this.matrixMargin.bottom)
+              .attr("id", "svgGenerated");
 
     // Append defs to the svg
     var defs = svg.append("defs");
@@ -376,6 +378,13 @@ export class VisualizePage implements OnInit {
       }
     }
     this.hideButton = true;
+    // SVG Zoom
+    svgPanZoom("#svgGenerated", {
+      zoomEnabled: true,
+      controlIconsEnabled: true,
+      fit: true,
+      center: true,
+    });
     this.fileLogs += "[!] Plots generated!\n";
     this.presentToast("Plots generated, check it below.");
   }
