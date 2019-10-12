@@ -101,78 +101,54 @@ export class AnalyzerService {
     || rhsAttribute.length < 1) {
       //console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
       return "Invalid arguments passed!";
-    } else {
-      //console.log ("=>", rfdSet, lhsAttribute, rhsAttribute, maxThreshold);
+    } else { // args ok
       let data: string = '[';
-      let rfdArray: {lhsThreshold: number, rhsThreshold: number, cardinality: number}[][] = [];
-      // initialize array
+      let rfdMatrix: {lhsThreshold: number}[][] = [];
+      // initialize matrix
       for (let i = 0; i <= maxThreshold; i++) {
-        rfdArray[i] = [];
+        rfdMatrix[i] = [];
         for (let j = 1; j <= maxCardinality; j++) {
-          rfdArray[i][j] = {
-            lhsThreshold: Number.NEGATIVE_INFINITY, 
-            rhsThreshold: i, 
-            cardinality: j};
-            console.log(i + " - " + j);
+          rfdMatrix[i][j] = {lhsThreshold: Number.NEGATIVE_INFINITY};
         }
       }
-      let empty: boolean = true;
-      console.log(lhsAttribute, rhsAttribute);
+      // once we have initialized the matrix, we start analyzing the set
       for (let i = 0; i <= maxThreshold; i++) { // x axis
         for (let j = 1; j <= maxCardinality; j++) { // y axis
-          let tempRFD: [number, number] = [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY]; // lhsThreshold, rhsThreshold
-          let found: boolean = false;
-          for (let rfd of rfdSet) {
-            let rfdLHS = rfd.contains("lhs", lhsAttribute);
-            let rfdRHS = rfd.contains("rhs", rhsAttribute);
-            if (rfdLHS !== undefined && rfdRHS !== undefined) {
-              if (rfdLHS[1] > tempRFD[0] && rfdLHS[1] <= maxThreshold && rfdRHS[1] == i && rfd.getLHS().length == j) {
-                tempRFD[0] = rfdLHS[1];
-                tempRFD[1] = rfdRHS[1];
-                found = true;
+          let tempLHS: number = Number.NEGATIVE_INFINITY;
+          for (let item of rfdSet) {
+            let rfdLHS = item.contains("lhs", lhsAttribute); // check if the dependence contains the lhsAttribute on the left-hand-side
+            let rfdRHS = item.contains("rhs", rhsAttribute); // check if the dependence contains the rhsAttribute on the right-hand-side
+            if (rfdLHS !== undefined && rfdRHS !== undefined) { // dependence contains (lhs/rhs)Attributes
+              if (rfdLHS[1] > tempLHS && rfdLHS[1] <= maxThreshold && rfdRHS[1] == i && item.getLHS().length == j) {
+                tempLHS = rfdLHS[1];
               }
             }
           }
-          if (!found) {
-            if (i == 0 && j > 1) {
-              if (rfdArray[i][j-1].lhsThreshold != Number.NEGATIVE_INFINITY) {
-                tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
-                tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
-              }
-            } else if (i > 0 && j == 1) {
-              if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
-                tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
-                tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
-              }
+          if (tempLHS == Number.NEGATIVE_INFINITY) { // rfd not found
+            if (i == 0 && j > 1) { // Threshold = 0 & Cardinality > 1
+              tempLHS = (rfdMatrix[i][j-1].lhsThreshold != Number.NEGATIVE_INFINITY) ? rfdMatrix[i][j-1].lhsThreshold : tempLHS; // copying the value from the cell below
+            } else if (i > 0 && j == 1) { // Threshold > 0 & Cardinality = 1
+              tempLHS = (rfdMatrix[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) ? rfdMatrix[i-1][j].lhsThreshold : tempLHS; // copying the value from the cell on the left side
             } else if (i > 0 && j > 1) {
-              if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY && rfdArray[i-1][j].lhsThreshold > rfdArray[i][j-1].lhsThreshold) {
-                tempRFD[0] = rfdArray[i-1][j].lhsThreshold;
-                tempRFD[1] = rfdArray[i-1][j].rhsThreshold + 1;
-              } else if (rfdArray[i-1][j].lhsThreshold != Number.NEGATIVE_INFINITY) {
-                tempRFD[0] = rfdArray[i][j-1].lhsThreshold;
-                tempRFD[1] = rfdArray[i][j-1].rhsThreshold;
-              }
+              tempLHS = (rfdMatrix[i-1][j].lhsThreshold > rfdMatrix[i][j-1].lhsThreshold) ? rfdMatrix[i-1][j].lhsThreshold : rfdMatrix[i][j-1].lhsThreshold;
             }
           }
-          rfdArray[i][j] = {
-            lhsThreshold: tempRFD[0],
-            rhsThreshold: i,
-            cardinality: j
-          };
+          rfdMatrix[i][j].lhsThreshold = tempLHS;
         }
       }
+      // printing data
+      let empty: boolean = true;
       for (let i = 0; i <= maxThreshold; i++) {
         for (let j = 1; j <= maxCardinality; j++) {
-          let lhsInfinity = (rfdArray[i][j].lhsThreshold != Number.NEGATIVE_INFINITY) ? rfdArray[i][j].lhsThreshold : '"-Infinity"';
+          let lhsInfinity = (rfdMatrix[i][j].lhsThreshold != Number.NEGATIVE_INFINITY) ? rfdMatrix[i][j].lhsThreshold : '"-Infinity"';
           data = (empty) ? data : data + ',';
-          data += '{"lhsThreshold":'+ lhsInfinity + ',"rhsThreshold":' + rfdArray[i][j].rhsThreshold + ',"cardinality":' + rfdArray[i][j].cardinality + "}";
+          data += '{"lhsThreshold":'+ lhsInfinity + ',"rhsThreshold":' + i + ',"cardinality":' + j + "}";
           empty = false;
         }
       }
       data += ']';
       console.log(data);
       return (data !== '[]') ? data : "Data not found!";
-    }
+    } // end if-else
   }
-
 }
