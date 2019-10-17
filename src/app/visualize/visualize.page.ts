@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyzerService } from '../analyzer.service';
 import { RelaxedFunctionalDependence } from '../RelaxedFunctionalDependence';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular';
 declare var d3: any;
 declare var svgPanZoom: any;
 
@@ -19,6 +19,7 @@ export class VisualizePage implements OnInit {
   threshold: number;
   hideButton: boolean;
   hideLogs: boolean;
+  loader: any;
 
   // set main svg dimensions and margins
   matrixMargin = {top: 30, right: 30, bottom: 30, left: 30};
@@ -35,7 +36,7 @@ export class VisualizePage implements OnInit {
   myGroups: Array<string>;
   myVars: Array<string>;
 
-  constructor(public analyzer: AnalyzerService, public toastCtrl: ToastController) {
+  constructor(public analyzer: AnalyzerService, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
     this.hideButton = false;
     this.hideLogs = true;
   }
@@ -50,6 +51,17 @@ export class VisualizePage implements OnInit {
       position: 'top'
     });
     toast.present();
+  }
+
+  async dismissLoading() {
+    return await this.loader.dismiss();
+  }
+
+  async presentLoading(msg: string) {
+    this.loader = await this.loadingCtrl.create({
+      message: msg
+    });
+    return await this.loader.present();
   }
 
   toggleLogs(event) {
@@ -74,7 +86,10 @@ export class VisualizePage implements OnInit {
         this.fileLogs += "[!] Dataset stored into the structure!\n";
         this.gWidth += (this.matrixWidth - 2*this.matrixMargin.left - 2*this.matrixMargin.right) / this.attributes.length;
         this.gHeight += (this.matrixHeight - 2*this.matrixMargin.top - 2*this.matrixMargin.bottom) / this.attributes.length;
-        this.drawMatrix();
+        this.presentLoading("Processing data..").then(() => {
+          this.drawMatrix();
+          this.dismissLoading();
+        })
       }, (reason) => {
         this.fileLogs += "[!] " + reason + "\n";
       }).catch((exception) => {
