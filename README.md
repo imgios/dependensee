@@ -29,6 +29,7 @@ B@0.0,C@5.0->A@2.0
 A@2.0->D@0.0
 ...
 ```
+where A, B, C and D are attributes and values after "at sign" (@) are thresholds associated to those attributes.
 
 ## License
 Dependensee is [MIT licensed](./LICENSE).
