@@ -22,6 +22,13 @@ $ cd dependensee && git checkout develop
 $ npm install
 $ ionic serve
 ```
+Datasets must be a .txt file structured as follows:
+```
+A@5.0,B@0.0,C@2.0->D@1.0
+B@0.0,C@5.0->A@2.0
+A@2.0->D@0.0
+...
+```
 
 ## License
 Dependensee is [MIT licensed](./LICENSE).
