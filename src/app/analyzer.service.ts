@@ -32,7 +32,9 @@ export class AnalyzerService {
                   if (item.indexOf("->") > -1) {
                     let splitted = item.split('->');
                     let lhs = splitted[0].split("@");
+                    console.log("LHS: ", lhs);
                     let rhs = splitted[1].split("@");
+                    console.log("RHS: ", rhs);
                     rfd.pushAttribute([lhs[0], parseFloat(lhs[1])]);
                     rfd.setRHS([rhs[0], parseFloat(rhs[1])]);
                     checkAttribute(lhs[0]);
@@ -46,6 +48,7 @@ export class AnalyzerService {
                 rfdSet.push(rfd); 
               }
             }
+            console.log(attributes);
             resolve([rfdSet, attributes.sort()]);
           } else {
             reject("Unable to read the file submitted!");
