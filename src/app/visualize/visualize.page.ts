@@ -326,7 +326,13 @@ export class VisualizePage implements OnInit {
       .attr("y", this.matrixMargin.top + ((this.matrixMargin.top * 2)/3))
       .attr("text-anchor", "middle")
       .attr("font-size", "11px")
-      .text(attribute);
+      .text(function(){
+        if (attribute.length > 13) { // if the attribute is too long to display it gets truncated
+          return attribute.substring(0, 11) + "..";
+        } else {
+          return attribute;
+        }
+      });
       if (this.attributes.indexOf(attribute) > 0) {
         xOffsetRotate -= this.gHeight + this.matrixMargin.top;
       }
@@ -336,7 +342,13 @@ export class VisualizePage implements OnInit {
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .attr("font-size", "11px")
-      .text(attribute);
+      .text(function(){
+        if (attribute.length > 13) { // if the attribute is too long to display it gets truncated
+          return attribute.substring(0, 11) + "..";
+        } else {
+          return attribute;
+        }
+      });
     }
 
     // Labels of row and columns
