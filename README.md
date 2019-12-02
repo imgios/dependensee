@@ -6,7 +6,12 @@
 </p>
 
 ## What is Dependensee?
-Dependensee is the subject of my Computer Science thesis and it's a web app that visualize a minimal set of RFDs (ndr. *relaxed functional dependencies*) extracted from a dataset (plain text file) with a given threshold. This is done with [Ionic](https://ionicframework.com/), [Angular](https://angular.io/) and [D3.js](https://d3js.org/) for manipulating data documents.
+Dependensee is the subject of my Computer Science thesis and it's a web app that visualize a set of minimal RFDs (*Relaxed Functional Dependencies*) extracted from a dataset (plain text file) with a given threshold. 
+
+###### Built with:
+* [Ionic](https://ionicframework.com/)
+* [Angular](https://angular.io/)
+* [D3.js](https://d3js.org/)
 
 ## Development
 Development-related progress can be seen in the `develop` branch. Keep reading if you want to give it a try.
