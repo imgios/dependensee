@@ -27,14 +27,15 @@ $ cd dependensee
 $ npm install
 $ ionic serve
 ```
-Datasets must be a .txt file structured as follows:
+###### Input file structure
+Dataset must be a .txt file structured as follows:
 ```
 A@5.0,B@0.0,C@2.0->D@1.0
 B@0.0,D@5.0->A@2.0
 A@2.0->D@0.0
 ...
 ```
-where A, B, C and D are attributes and values after "at sign" (@) are thresholds associated to those attributes.
+where A, B, C and D are attributes and values after "at sign" (@) are thresholds associated to those attributes. An example is available in [/example-data](./example-data)
 
 ## License
 Dependensee is [MIT licensed](./LICENSE).
