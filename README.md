@@ -18,7 +18,7 @@ Development-related progress can be seen in the `develop` branch. Keep reading i
 ### Run
 ```bash
 $ git clone https://github.com/imgios/dependensee.git
-$ cd dependensee && git checkout develop
+$ cd dependensee
 $ npm install
 $ ionic serve
 ```
