@@ -35,7 +35,7 @@ B@0.0,D@5.0->A@2.0
 A@2.0->D@0.0
 ...
 ```
-where A, B, C and D are attributes and values after "at sign" (@) are thresholds associated to those attributes. An example is available in [/example-data](./example-data)
+where A, B, C and D are attributes and values after "at sign" (@) are thresholds associated to those attributes. An example is available in [/example-data](./example-data).
 
 ## License
 Dependensee is [MIT licensed](./LICENSE).
