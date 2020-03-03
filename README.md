@@ -6,7 +6,7 @@
 </p>
 
 ## What is Dependensee?
-Dependensee is the subject of my Computer Science thesis and it's a web app that visualize a set of minimal RFDs (*Relaxed Functional Dependencies*) extracted from a dataset (plain text file) with a given threshold. 
+Dependensee is a webapp that visualize a set of minimal *Relaxed Functional Dependencies* (RFDs) extracted from a dataset (plain text file) with a given threshold, through a colored matrix. 
 
 ###### Built with:
 * [Ionic](https://ionicframework.com/)
