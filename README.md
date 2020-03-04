@@ -2,7 +2,7 @@
   <!-- <i>DEPENDENSEE</i>
   <br/><span>&#9783;</span> <span>&#10141;</span> :bar_chart:-->
   <img src="https://raw.githubusercontent.com/imgios/imgios.github.io/master/images/logo_dependensee.png">
-  <br/><sup>Minimal relaxed functional dependencies set visualization web app</sup>
+  <br/><sup>Minimal relaxed functional dependencies set visualization webapp</sup>
 </p>
 
 ## What is Dependensee?
